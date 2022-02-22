@@ -1,1 +1,69 @@
 
+library(rvest)
+library(ggplot2)
+library(tidyverse)
+library(rlist) 
+
+# Innstallerer og laster inn nøvendinge pakker 
+## ------------------------------------------------------------------------------------------------------
+
+## Oppgave 1 
+## Legger inn url for deretter å skrape den for nødvendig data
+
+url <-"https://www.motor.no/aktuelt/motors-store-vintertest-av-rekkevidde-pa-elbiler/217132"
+
+motor <- read_html(url)
+
+motor2 <- motor %>% 
+  html_table( header = TRUE, fill = TRUE) 
+
+
+##  Fjerner rader som mangler Y-verdier. 
+biler <- motor2[[1]] %>% 
+  slice(-c(19, 26))
+
+str(biler)
+
+biler$`WLTP-tall`<-gsub('.{9}$', '', biler$`WLTP-tall`)
+
+biler$`WLTP-tall`<-gsub("km","",as.character(biler$`WLTP-tall`))
+
+biler$STOPP<-gsub("km","",as.character(biler$STOPP))
+
+biler[2] <- as.numeric(unlist(biler[2]))
+biler[3] <- as.numeric(unlist(biler[3]))
+
+str(biler)
+
+biler %>% 
+  ggplot(aes(x=`WLTP-tall`,y=STOPP)) + geom_point() +
+  scale_x_continuous(expand = c(0,0), limits = c(200,650)) + 
+  scale_y_continuous(expand = c(0,0), limits = c(200,650)) +
+  geom_abline(slope = 1, color = "purple", cex = 0.5) +
+  labs(x = "WLTP", y = "stopp") +
+  labs(title = "STOPP og WLTP knyttet opp mot den forventede kjørelengden i antall km") +
+theme_bw()
+## ------------------------------------------------------------------------------------------------------
+## Oppgave 2
+
+lm(STOPP~`WLTP-tall`, data = biler)
+
+biler %>% 
+  ggplot(aes(x=`WLTP-tall`,y=STOPP)) + geom_point() +
+  scale_x_continuous(expand = c(0,0), limits = c(200,650)) + 
+  scale_y_continuous(expand = c(0,0), limits = c(200,650)) +
+  geom_abline(slope = 1, color = "purple", cex = 0.5) +
+  labs(x = "WLTP", y = "STOPP") +
+  labs(title = "STOPP og WLTP knyttet opp mot den forventede kjørelengden i antall km") +
+  geom_smooth(method = lm) +
+  theme_bw()
+
+#  Coefficienter viser -26.6560 (X) og WLTP viser 0.8671 (Y)
+# Dette inndikerer at den faktiske kjørelengden til bilprodusentene ligger under den anslåtte kjørelengden
+# som er opplyst.
+ 
+
+# kilder: 
+# https://stackoverflow.com/questions/49985671/how-to-remove-specific-words-in-a-column
+# https://www.delftstack.com/howto/r/remove-last-character-in-r/
+# https://www.r-bloggers.com/2018/07/creating-legends-when-aesthetics-are-constants-in-ggplot2/
