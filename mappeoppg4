@@ -1,6 +1,7 @@
 library(rvest)
 library(tidyverse)
 library(rlist)
+
 ## laster nødvendige pakker 
 
 
@@ -33,8 +34,6 @@ df$Dag <- as.character(df$Dag)
 
 df <- df %>% fill(c(Dag,Dato,Uke))
 ## ------------------------------------------------------------------------------------------------------------
-
-  ## framstillingen av kolloner/dataframen.
   
   df <- df %>% select(Dag,Dato,Uke,Tid,Rom,Emnekode,Beskrivelse,Lærer)
 df
