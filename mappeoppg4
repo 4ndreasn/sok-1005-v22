@@ -2,10 +2,11 @@ library(rvest)
 library(tidyverse)
 library(rlist)
 
-## laster nødvendige pakker. 
-
 
 ##  MAPPEOPPGAVE 4
+## starter med å laste nødvendige pakker. 
+
+
 list_url <- 
   paste0("https://timeplan.uit.no/emne_timeplan.php?sem=22v&module%5B%5D=SOK-1005-1&week=4-20&View=list",
        "https://timeplan.uit.no/emne_timeplan.php?sem=22v&module[]=SOK-1006-1&week=4-20&View=list",
