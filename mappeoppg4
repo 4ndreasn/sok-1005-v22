@@ -2,7 +2,7 @@ library(rvest)
 library(tidyverse)
 library(rlist)
 
-## laster nødvendige pakker 
+## laster nødvendige pakker. 
 
 
 ##  MAPPEOPPGAVE 4
@@ -38,4 +38,4 @@ df <- df %>% fill(c(Dag,Dato,Uke))
   df <- df %>% select(Dag,Dato,Uke,Tid,Rom,Emnekode,Beskrivelse,Lærer)
 df
 
-## Fikk ikke kolonnene helt som ønskelig, men et helt greit resultat.
+## Sluttresultat av dataframen. Fikk ikke kolonnene helt som ønskelig, men et helt greit resultat.
