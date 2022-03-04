@@ -11,7 +11,7 @@ list_url <-
        "https://timeplan.uit.no/emne_timeplan.php?sem=22v&module%5B%5D=SOK-1016-1&week=4-20&View=list")
 
 ## Laster inn nødveninge url`er for å løse oppgaven. 
-
+## ------------------------------------------------------------------------------------------------------------
 pages <- list_url[[1]] %>%
   map(read_html)
 
@@ -32,7 +32,7 @@ df$Uke <- strftime(df$Dato, format = "%V")
 df$Dag <- as.character(df$Dag)
 
 df <- df %>% fill(c(Dag,Dato,Uke))
-------------------------------------------------------------------------------------------------------------
+## ------------------------------------------------------------------------------------------------------------
 
   ## framstillingen av kolloner/dataframen.
   
